@@ -39,10 +39,10 @@ abstract class LicensesTask : DefaultTask() {
     @get:OutputFile
     abstract var licensesMetadata: File
 
-    val licensesMap = mutableMapOf<String, String>()
-    val licenseOffsets = mutableMapOf<String, String>()
+    val licensesMap: Map<String, String> = mapOf()
+    val licenseOffsets: Map<String, String> = mapOf()
 
-    var start = 0
+    val start = 0
 
     @TaskAction
     fun action() {
@@ -72,22 +72,26 @@ abstract class LicensesTask : DefaultTask() {
         )
     }
 
-    fun initOutputDir() {
-        if (!rawResourceDir.exists()) {
-            rawResourceDir.mkdirs()
+    fun initOutputDir(rawResourceDir: File): File {
+        return if (!rawResourceDir.exists()) {
+            rawResourceDir.apply { mkdirs() }
+        } else {
+            rawResourceDir
         }
     }
 
-    fun initLicenseFile() {
+    fun initLicenseFile(licenses: File): File {
         licenses.writer().buffered().use {
             it.write("")
         }
+        return licenses
     }
 
-    fun initLicensesMetadata() {
+    fun initLicensesMetadata(licensesMetadata: File): File {
         licensesMetadata.writer().buffered().use {
             it.write("")
         }
+        return licensesMetadata
     }
 
     fun addLicensesFromPom(artifact: Artifact) {
