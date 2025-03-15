@@ -2,7 +2,6 @@ package com.dosukoi.license.plugin
 
 import com.android.tools.build.libraries.metadata.AppDependencies
 import com.android.tools.build.libraries.metadata.Library.LibraryOneofCase.MAVEN_LIBRARY
-import groovy.json.JsonBuilder
 import java.io.File
 import kotlinx.serialization.json.Json
 import org.gradle.api.DefaultTask

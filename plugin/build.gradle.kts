@@ -27,11 +27,14 @@ dependencies {
     implementation(libs.bundles.agp)
     implementation(libs.protobuf)
     implementation(libs.kotlin.serialization.json)
-    // Use the Kotlin JUnit 5 integration.
+    implementation(libs.xmlutil.serialization)
+
+
 
     testImplementation(libs.kotlin.test.junit5)
+    testImplementation(libs.mockk)
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 gradlePlugin {

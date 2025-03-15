@@ -5,13 +5,18 @@ kotlin = "2.1.10"
 kotlin-serialization = "1.8.0"
 agp = "8.0.0"
 protobuf = "3.19.3"
+xmlutil-serialization = "0.91.0-RC1"
+mockk = "1.13.17"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 android-gradle-plugin-api = { module = "com.android.tools.build:gradle-api", version.ref = "agp" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 protobuf = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
+xmlutil-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlutil-serialization" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 [bundles]
 agp = ["android-gradle-plugin", "android-gradle-plugin-api"]
