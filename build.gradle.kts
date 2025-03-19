@@ -14,7 +14,6 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("com.google.android.gms:oss-licenses-plugin:0.10.6-SNAPSHOT")
-        classpath("io.github.dosukoi-juku:license-report-gradle-plugin:0.0.1-SNAPSHOT")
+        classpath("com.google.android.gms:oss-licenses-plugin:0.10.6")
     }
 }

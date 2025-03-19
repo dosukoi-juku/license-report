@@ -27,4 +27,3 @@ dependencyResolutionManagement {
 rootProject.name = "license-report"
 
 include("plugin")
-include(":sample")
