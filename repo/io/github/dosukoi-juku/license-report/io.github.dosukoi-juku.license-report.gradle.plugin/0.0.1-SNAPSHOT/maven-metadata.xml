@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>io.github.dosukoi-juku.license-report</groupId>
+  <artifactId>io.github.dosukoi-juku.license-report.gradle.plugin</artifactId>
+  <versioning>
+    <lastUpdated>20250319150102</lastUpdated>
+    <snapshot>
+      <timestamp>20250319.150102</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.0.1-20250319.150102-1</value>
+        <updated>20250319150102</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>0.0.1-SNAPSHOT</version>
+</metadata>

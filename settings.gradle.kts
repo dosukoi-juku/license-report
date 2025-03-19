@@ -9,6 +9,11 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
+        maven {
+            name = "localPluginRepository"
+            url = uri("repo")
+        }
     }
 }
 
@@ -19,7 +24,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "licenses-plugin"
+rootProject.name = "license-report"
 
 include("plugin")
 include(":sample")
