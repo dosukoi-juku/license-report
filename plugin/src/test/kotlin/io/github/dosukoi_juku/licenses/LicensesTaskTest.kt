@@ -40,24 +40,24 @@ class LicensesTaskTest {
         project = ProjectBuilder.builder().withProjectDir(File(BASE_DIR)).build()
         licensesTask = project.tasks.create("generateLicenses", LicensesTask::class.java)
 
-        licensesTask.rawResourceDir = tempFolder
-        licensesTask.licenses = outputLicenses
-        licensesTask.licensesMetadata = outputMetadata
+        licensesTask.rawResourceDir.set(tempFolder)
+        licensesTask.licenses.set(outputLicenses)
+        licensesTask.licensesMetadata.set(outputMetadata)
     }
 
     @Test
     fun testInitOutputDir() {
         licensesTask.initOutputDir()
 
-        assertTrue(licensesTask.rawResourceDir.exists())
+        assertTrue(licensesTask.rawResourceDir.asFile.get().exists())
     }
 
     @Test
     fun testInitLicenseFile() {
         licensesTask.initLicenseFile()
 
-        assertTrue(licensesTask.licenses.exists())
-        assertEquals(0, Files.size(licensesTask.licenses.toPath()))
+        assertTrue(licensesTask.licenses.asFile.get().exists())
+        assertEquals(0, Files.size(licensesTask.licenses.asFile.get().toPath()))
     }
 
     @Test
@@ -65,8 +65,8 @@ class LicensesTaskTest {
     fun testInitLicensesMetadata() {
         licensesTask.initLicensesMetadata()
 
-        assertTrue(licensesTask.licensesMetadata.exists())
-        assertEquals(0, Files.size(licensesTask.licensesMetadata.toPath()))
+        assertTrue(licensesTask.licensesMetadata.asFile.get().exists())
+        assertEquals(0, Files.size(licensesTask.licensesMetadata.asFile.get().toPath()))
     }
 
     @Test
@@ -89,7 +89,7 @@ class LicensesTaskTest {
         val group1 = "groupA"
         licensesTask.addLicensesFromPom(deps1, group1, name1)
 
-        val content = String(Files.readAllBytes(licensesTask.licenses.toPath()), UTF_8)
+        val content = String(Files.readAllBytes(licensesTask.licenses.asFile.get().toPath()), UTF_8)
         val expected = "http://www.opensource.org/licenses/mit-license.php" + LINE_BREAK
         assertTrue(licensesTask.licensesMap.containsKey("groupA:deps1"))
         assertEquals(expected, content)
@@ -108,7 +108,7 @@ class LicensesTaskTest {
         val group2 = "groupB"
         licensesTask.addLicensesFromPom(deps2, group2, name2)
 
-        val content = String(Files.readAllBytes(licensesTask.licenses.toPath()), UTF_8)
+        val content = String(Files.readAllBytes(licensesTask.licenses.asFile.get().toPath()), UTF_8)
         val expected =
             ("http://www.opensource.org/licenses/mit-license.php"
                     + LINE_BREAK
@@ -137,7 +137,7 @@ class LicensesTaskTest {
         val group2 = "groupE"
         licensesTask.addLicensesFromPom(deps2, group2, name2)
 
-        val content = String(Files.readAllBytes(licensesTask.licenses.toPath()), UTF_8)
+        val content = String(Files.readAllBytes(licensesTask.licenses.asFile.get().toPath()), UTF_8)
         val expected =
             ("http://www.opensource.org/licenses/mit-license.php"
                     + LINE_BREAK
@@ -164,7 +164,7 @@ class LicensesTaskTest {
         val group2 = "groupA"
         licensesTask.addLicensesFromPom(deps2, group2, name2)
 
-        val content = String(Files.readAllBytes(licensesTask.licenses.toPath()), UTF_8)
+        val content = String(Files.readAllBytes(licensesTask.licenses.asFile.get().toPath()), UTF_8)
         val expected = "http://www.opensource.org/licenses/mit-license.php" + LINE_BREAK
 
         assertEquals(licensesTask.licensesMap.size, 1)
@@ -219,7 +219,7 @@ class LicensesTaskTest {
 //        val artifact = File(tempOutput.path + "play-services-foo-license.aar")
 //        licensesTask.addGooglePlayServiceLicenses(artifact)
 //
-//        val content = String(Files.readAllBytes(licensesTask.licenses.toPath()), UTF_8)
+//        val content = String(Files.readAllBytes(licensesTask.licenses.asFile.get().toPath()), UTF_8)
 //        val expected = "safeparcel" + LINE_BREAK + "JSR 305" + LINE_BREAK
 //        assertEquals(expected, content)
 //        assertEquals(licensesTask.googleServiceLicenses.size(), 2)
@@ -246,7 +246,7 @@ class LicensesTaskTest {
 //        licensesTask.addGooglePlayServiceLicenses(artifactFoo)
 //        licensesTask.addGooglePlayServiceLicenses(artifactBar)
 //
-//        val content = String(Files.readAllBytes(licensesTask.licenses.toPath()), UTF_8)
+//        val content = String(Files.readAllBytes(licensesTask.licenses.asFile.get().toPath()), UTF_8)
 //        val expected = "safeparcel" + LINE_BREAK + "JSR 305" + LINE_BREAK
 //        assertEquals(expected, content)
 //        assertEquals(licensesTask.googleServiceLicenses.size(), 2)
