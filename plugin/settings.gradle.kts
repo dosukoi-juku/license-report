@@ -10,10 +10,6 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven {
-            name = "localPluginRepository"
-            url = uri("repo")
-        }
     }
 }
 
