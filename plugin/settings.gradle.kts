@@ -6,7 +6,6 @@
  */
 
 pluginManagement {
-    includeBuild("../plugin")
     repositories {
         google()
         mavenCentral()
