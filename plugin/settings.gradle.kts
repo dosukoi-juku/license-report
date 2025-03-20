@@ -6,6 +6,7 @@
  */
 
 pluginManagement {
+    includeBuild("../plugin")
     repositories {
         google()
         mavenCentral()
@@ -25,6 +26,3 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "license-report"
-
-include(":plugin")
-include(":sample")
