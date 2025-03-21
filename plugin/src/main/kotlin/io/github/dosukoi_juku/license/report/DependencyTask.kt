@@ -6,12 +6,16 @@ import java.io.File
 import kotlinx.serialization.json.Json
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 
 abstract class DependencyTask : DefaultTask() {
+
+    @get:Input
+    abstract val outputDir: RegularFileProperty
 
     @get:OutputFile
     abstract val dependenciesJson : RegularFileProperty

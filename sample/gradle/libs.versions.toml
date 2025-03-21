@@ -29,5 +29,5 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-license-report = { id = "com.github.dosukoi-juku.license-report", version = "unspecified"}
+license-report = { id = "io.github.dosukoi-juku.license-report"}
 

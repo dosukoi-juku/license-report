@@ -27,6 +27,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        assets.open("dependencies.json").use {
+            val dependencies = it.readBytes().decodeToString()
+            println(dependencies)
+        }
+
     }
 }
 

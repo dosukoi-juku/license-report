@@ -2,16 +2,19 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.license.report)
+    id("com.google.android.gms.oss-licenses-plugin")
+    id("app.cash.licensee")
 }
 
 android {
     namespace = "io.github.dosukoi_juku.license_report.sample"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "io.github.dosukoi_juku.license_report.sample"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -34,6 +37,16 @@ android {
     buildFeatures {
         compose = true
     }
+
+    flavorDimensions.add("default")
+    productFlavors {
+        create("develop") {
+            dimension = "default"
+        }
+        create("production") {
+            dimension = "default"
+        }
+    }
 }
 
 dependencies {
@@ -53,4 +66,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+}
+
+licensee {
+    allow("Apache-2.0")
 }
