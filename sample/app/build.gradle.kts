@@ -6,6 +6,7 @@ plugins {
     id("com.google.android.gms.oss-licenses-plugin")
     id("app.cash.licensee")
     id("com.github.jk1.dependency-license-report") version "2.9"
+    kotlin("plugin.serialization") version "2.0.0"
 
 }
 
@@ -71,9 +72,14 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okio:okio:3.6.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.android.gms:play-services-oss-licenses:17.1.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("androidx.navigation:navigation-compose:2.8.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("com.github.fingerprintjs:fingerprint-android:2.2.0")
+    implementation("com.github.agrosner.dbflow:dbflow:4.2.3")
 
 }
 
