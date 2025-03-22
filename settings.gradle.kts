@@ -8,3 +8,4 @@ rootProject.name = "license-report"
 
 includeBuild("plugin")
 includeBuild("sample")
+includeBuild("core")

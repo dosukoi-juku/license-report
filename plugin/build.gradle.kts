@@ -15,7 +15,7 @@ plugins {
 //    signing
 }
 
-group = "io.github.dosukoi-juku"
+group = "io.github.dosukoi-juku.license-report"
 version = "0.0.1-SNAPSHOT"
 
 repositories {
