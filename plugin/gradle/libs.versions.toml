@@ -8,10 +8,7 @@ protobuf = "3.19.3"
 xmlutil-serialization = "0.91.0-RC1"
 mockk = "1.13.17"
 plugin-publish = "1.1.0"
-junit = "4.13.2"
-runner = "1.0.2"
-espresso-core = "3.0.2"
-appcompat-v7 = "28.0.0"
+maven-model-builder = "3.9.9"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -22,10 +19,7 @@ kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializat
 xmlutil-serialization = { module = "io.github.pdvrieze.xmlutil:serialization", version.ref = "xmlutil-serialization" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-runner = { group = "com.android.support.test", name = "runner", version.ref = "runner" }
-espresso-core = { group = "com.android.support.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-appcompat-v7 = { group = "com.android.support", name = "appcompat-v7", version.ref = "appcompat-v7" }
+model-builder = { module = "org.apache.maven:maven-model-builder", version.ref = "maven-model-builder" }
 
 [bundles]
 agp = ["android-gradle-plugin", "android-gradle-plugin-api"]

@@ -29,8 +29,7 @@ dependencies {
     implementation(libs.protobuf)
     implementation(libs.kotlin.serialization.json)
     implementation(libs.xmlutil.serialization)
-
-
+    implementation(libs.model.builder)
 
     testImplementation(libs.kotlin.test.junit5)
     testImplementation(libs.mockk)
