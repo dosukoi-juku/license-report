@@ -20,4 +20,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "license-report"
+rootProject.name = "plugin"

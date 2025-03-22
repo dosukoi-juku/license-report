@@ -41,7 +41,7 @@ gradlePlugin {
     plugins {
         create("plugin") {
             id = "io.github.dosukoi-juku.license-report"
-            group = "io.github.dosukoi-juku"
+            group = "io.github.dosukoi-juku.license-report"
             displayName = "License Report"
             description = "A plugin that generates third-party licenses for Android projects."
             implementationClass = "io.github.dosukoi_juku.license.report.LicensesPlugin"
@@ -53,7 +53,7 @@ gradlePlugin {
 publishing {
     publications {
         withType<MavenPublication> {
-            artifactId = "license-report-gradle-plugin"
+            artifactId = "gradle-plugin"
         }
     }
     repositories {

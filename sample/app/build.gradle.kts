@@ -2,11 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.license.report)
+//    alias(libs.plugins.license.report)
     id("com.google.android.gms.oss-licenses-plugin")
     id("app.cash.licensee")
     id("com.github.jk1.dependency-license-report") version "2.9"
     kotlin("plugin.serialization") version "2.0.0"
+    id("io.github.dosukoi-juku.license-report") version "0.0.1-SNAPSHOT"
 
 }
 
