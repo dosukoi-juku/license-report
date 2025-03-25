@@ -159,24 +159,6 @@ data class PomFile(
 )
 
 @Serializable
-data class PomInfo(
-    val name: String?,
-    val licenses: Set<PomLicense>,
-    val scm: PomScm
-)
-
-@Serializable
-data class PomLicense(
-    val name: String?,
-    val url: String?
-)
-
-@Serializable
-data class PomScm(
-    val url: String?
-)
-
-@Serializable
 data class PomInputModel(
     @XmlElement(true)
     val name: String,
