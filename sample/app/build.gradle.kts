@@ -70,7 +70,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.okhttp)
     implementation("com.squareup.okio:okio:3.6.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.android.gms:play-services-oss-licenses:17.1.0")
