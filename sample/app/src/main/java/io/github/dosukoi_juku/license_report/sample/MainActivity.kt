@@ -3,8 +3,6 @@
 package io.github.dosukoi_juku.license_report.sample
 
 import android.content.Context
-import android.content.Intent
-import androidx.compose.material.icons.Icons
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,16 +35,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavGraph
-import androidx.navigation.NavHost
-import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.google.android.gms.oss.licenses.OssLicensesActivity
 import io.github.dosukoi_juku.license_report.sample.ui.theme.SampleTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -93,7 +87,7 @@ fun Nav() {
                 onLibraryClick = {
                     navController.navigate(License(offset = it.offset, length = it.length))
                 },
-                onNavigationClick =  {
+                onNavigationClick = {
                     navController.popBackStack()
                 }
             )
@@ -169,7 +163,7 @@ fun OssLicensesPluginScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = "OSS License Plugin")
+                    Text(text = "OSS License Plugin ${libraries.size}")
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigationClick) {

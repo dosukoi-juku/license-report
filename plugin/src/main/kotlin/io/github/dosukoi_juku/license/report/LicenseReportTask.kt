@@ -2,23 +2,14 @@ package io.github.dosukoi_juku.license.report
 
 import com.android.build.api.variant.Variant
 import java.io.File
-import kotlin.collections.associate
-import kotlin.collections.map
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import org.apache.maven.model.Model
-import org.apache.maven.model.Parent
-import org.apache.maven.model.Repository
-import org.apache.maven.model.Scm
-import org.apache.maven.model.building.DefaultModelBuilderFactory
-import org.apache.maven.model.building.DefaultModelBuildingRequest
-import org.apache.maven.model.building.FileModelSource
-import org.apache.maven.model.building.ModelBuildingRequest
-import org.apache.maven.model.building.ModelSource
-import org.apache.maven.model.building.ModelSource2
-import org.apache.maven.model.resolution.ModelResolver
-import org.apache.tools.ant.taskdefs.optional.depend.Depend
+import kotlinx.serialization.serializer
+import nl.adaptivity.xmlutil.serialization.XML
+import nl.adaptivity.xmlutil.serialization.XmlChildrenName
+import nl.adaptivity.xmlutil.serialization.XmlElement
+import nl.adaptivity.xmlutil.serialization.XmlSerialName
 import org.gradle.api.DefaultTask
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.component.ComponentIdentifier
@@ -28,13 +19,17 @@ import org.gradle.api.artifacts.result.ResolvedComponentResult
 import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.gradle.api.artifacts.result.ResolvedVariantResult
 import org.gradle.api.attributes.Attribute
-import org.gradle.api.attributes.AttributeContainer
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
 
 private val json = Json { prettyPrint = true }
+private val xml = XML {
+    defaultPolicy {
+        ignoreUnknownChildren()
+    }
+}
 
 abstract class LicenseReportTask : DefaultTask() {
 
@@ -50,13 +45,13 @@ abstract class LicenseReportTask : DefaultTask() {
 
     @TaskAction
     fun action() {
-        println(outputDir.get().asFile.absolutePath)
         outputDir.get().asFile.mkdir()
 
         variant?.runtimeConfiguration?.also {
             val root = it.incoming.resolutionResult.rootComponent.get()
 
             val transitiveDependencies = loadTransitiveDependencies(it, root, setOf())
+            println("size: ${transitiveDependencies.size}")
             val dependencies = transitiveDependencies.map {
                 Dependency.create(it.displayName)
             }
@@ -65,47 +60,22 @@ abstract class LicenseReportTask : DefaultTask() {
             dependenciesJsonFile.writeText(dependenciesJson)
 
             val dependenciesWithPomFile = fetchPomFile(dependencies, root)
-
-            val builder = DefaultModelBuilderFactory().newInstance()
-            val resolver = object : ModelResolver {
-                fun resolve(dependency: Dependency): FileModelSource {
-                    val pomFile =
-                        fetchPomFile(
-                            listOf(dependency),
-                            root,
-                        ).single().second
-                    return FileModelSource(pomFile.file)
-                }
-
-                override fun resolveModel(groupId: String, artifactId: String, version: String): ModelSource2 =
-                    resolve(Dependency(groupId, artifactId, version))
-
-                override fun resolveModel(parent: Parent): ModelSource2 =
-                    resolve(Dependency(parent.groupId, parent.artifactId, parent.version))
-
-                override fun resolveModel(dependency: org.apache.maven.model.Dependency): ModelSource2? =
-                    resolve(Dependency(dependency.groupId, dependency.artifactId, dependency.version))
-
-                override fun addRepository(repository: Repository) {}
-                override fun addRepository(repository: Repository, replace: Boolean) {}
-                override fun newCopy(): ModelResolver = this
-            }
-
-            val dependenciesWithPomInfo = dependenciesWithPomFile.map { (dependency, pomFile) ->
-                val req = DefaultModelBuildingRequest().also {
-                    it.isProcessPlugins = false
-                    it.pomFile = pomFile.file
-                    it.isTwoPhaseBuilding = true
-                    it.modelResolver = resolver
-                    it.validationLevel = ModelBuildingRequest.VALIDATION_LEVEL_MINIMAL
-                }
-                val result = builder.build(req)
-                DependencyWithPomInfo(
-                    group = dependency.group,
-                    name = dependency.name,
-                    version = dependency.version,
-                    loadPomInfo(result.effectiveModel) { modelId ->
-                        result.getRawModel(modelId)
+            val dependenciesWithPomInfo = dependenciesWithPomFile.map { dependencyWithPom ->
+                val fileText = dependencyWithPom.second.file.readText(Charsets.UTF_8)
+                val serializer = serializer<PomInputModel>()
+                val pom = xml.decodeFromString(serializer, fileText)
+                ReportOutputModel(
+                    name = pom.name,
+                    dependency = ReportDependencyOutputModel(
+                        group = dependencyWithPom.first.group,
+                        name = dependencyWithPom.first.name,
+                        version = dependencyWithPom.first.version
+                    ),
+                    licenses = pom.licenses.map {
+                        ReportLicenseOutputModel(
+                            name = it.name,
+                            url = it.url
+                        )
                     }
                 )
             }
@@ -113,8 +83,6 @@ abstract class LicenseReportTask : DefaultTask() {
             val dependenciesWithPomInfoJson = json.encodeToString(dependenciesWithPomInfo)
             val dependenciesWithPomInfoFile = File(outputDir.get().asFile, "license_report.json")
             dependenciesWithPomInfoFile.writeText(dependenciesWithPomInfoJson)
-
-
         }
     }
 
@@ -167,22 +135,12 @@ abstract class LicenseReportTask : DefaultTask() {
             project.configurations.detachedConfiguration(*deps)
         }
 
-        pomDetachedConfiguration(pomDependencies).forEach {
-            println(it)
-        }
-
         val withVariants = applyVariantAttributes(
             pomDetachedConfiguration(pomDependencies),
             root.variants
         ).artifacts()
 
         val withoutVariants = pomDetachedConfiguration(pomDependencies).artifacts()
-        withoutVariants.forEach {
-            println(it)
-        }
-
-        println(withVariants)
-        println(withoutVariants)
 
         return (withVariants + withoutVariants).map {
             val moduleComponentIdentifier = (it.id.componentIdentifier as ModuleComponentIdentifier)
@@ -194,43 +152,6 @@ abstract class LicenseReportTask : DefaultTask() {
             Pair(dependency, PomFile(it.file))
         }.distinctBy { it.first }
     }
-
-    internal fun loadPomInfo(
-        pom: Model,
-        getRawModel: (String) -> Model?,
-    ): PomInfo {
-        val parentRawModel = pom.parent?.let {
-            getRawModel("${it.groupId}:${it.artifactId}:${it.version}")
-        }
-        val pomScm: Scm? = pom.scm
-        val url = if (parentRawModel != null) {
-            // https://maven.apache.org/ref/3.6.1/maven-model-builder/
-            // When depending on a parent, Maven adds a /artifactId to the url of the child,
-            // if the pom file does not opt out of this behavior:
-            // <scm child.scm.url.inherit.append.path="false">
-            // We don't want to handle the /artifactId, so we use the parent clean url instead.
-            val parentScm: Scm? = parentRawModel.scm
-            when (parentScm?.childScmUrlInheritAppendPath?.toBoolean()) {
-                // No opt-out, use pom first, then parent pom because we don't want to use the /artifactId.
-                null -> pomScm?.url?.removeSuffix("/${pom.artifactId}") ?: parentScm?.url
-                // Explicit opt-out, so use the parent url.
-                false -> parentScm.url
-                // Explicit opt-in, the model already appends the path.
-                true -> pomScm?.url
-            }
-        } else {
-            pomScm?.url
-        }
-
-        return PomInfo(
-            name = pom.name ?: parentRawModel?.name,
-            licenses = (pom.licenses.takeUnless { it.isEmpty() } ?: parentRawModel?.licenses)?.mapTo(mutableSetOf()) {
-                PomLicense(it.name, it.url)
-            } ?: emptySet(),
-            scm = PomScm(url),
-        )
-    }
-
 }
 
 data class PomFile(
@@ -256,10 +177,39 @@ data class PomScm(
 )
 
 @Serializable
-data class DependencyWithPomInfo(
-    override val group: String,
-    override val name: String,
-    override val version: String,
-    @SerialName("license")
-    val pomInfo: PomInfo
-): DependencyInfo
+data class PomInputModel(
+    @XmlElement(true)
+    val name: String,
+    @XmlChildrenName("license")
+    val licenses: List<PomLicenseInputModel>,
+)
+
+@Serializable
+@XmlSerialName("license", "", "")
+@SerialName("license")
+data class PomLicenseInputModel(
+    @XmlElement(true)
+    val name: String?,
+    @XmlElement(true)
+    val url: String?
+)
+
+@Serializable
+data class ReportOutputModel(
+    val name: String?, // Library Name. e.g. "AndroidX Core"
+    val dependency: ReportDependencyOutputModel,
+    val licenses: List<ReportLicenseOutputModel>,
+)
+
+@Serializable
+data class ReportDependencyOutputModel(
+    val group: String, // Group ID. e.g. "androidx.core"
+    val name: String, // Artifact ID. e.g. "core"
+    val version: String, // Version. e.g. "1.0.0"
+)
+
+@Serializable
+data class ReportLicenseOutputModel(
+    val name: String?, // License Name. e.g. "Apache-2.0"
+    val url: String? // License URL. e.g. "https://opensource.org/licenses/Apache-2.0"
+)

@@ -77,7 +77,6 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("androidx.navigation:navigation-compose:2.8.9")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation("com.github.fingerprintjs:fingerprint-android:2.2.0")
     implementation("com.github.agrosner.dbflow:dbflow:4.2.3")
 
 }
@@ -85,4 +84,5 @@ dependencies {
 licensee {
     allow("Apache-2.0")
     allowUrl("https://developer.android.com/studio/terms.html")
+    allow("MIT")
 }
