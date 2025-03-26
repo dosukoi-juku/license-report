@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "io.github.dosukoi-juku.license-report"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1-alpha01"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -35,6 +35,8 @@ dependencies {
 }
 
 gradlePlugin {
+    website = "https://github.com/dosukoi-juku/license-report"
+    vcsUrl = "https://github.com/dosukoi-juku/license-report"
     plugins {
         create("plugin") {
             id = "io.github.dosukoi-juku.license-report"
@@ -42,6 +44,7 @@ gradlePlugin {
             displayName = "License Report"
             description = "A plugin that generates third-party licenses for Android projects."
             implementationClass = "io.github.dosukoi_juku.license.report.LicensesPlugin"
+            tags = listOf("licenses", "android")
         }
     }
 }
