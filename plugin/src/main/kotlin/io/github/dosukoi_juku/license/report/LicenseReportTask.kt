@@ -51,7 +51,6 @@ abstract class LicenseReportTask : DefaultTask() {
             val root = it.incoming.resolutionResult.rootComponent.get()
 
             val transitiveDependencies = loadTransitiveDependencies(it, root, setOf())
-            println("size: ${transitiveDependencies.size}")
             val dependencies = transitiveDependencies.map {
                 Dependency.create(it.displayName)
             }
