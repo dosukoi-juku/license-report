@@ -1,0 +1,23 @@
+name: Publish Plugin
+
+on:
+  push:
+    tags:
+      - 'plugin-[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v3
+      - name: Run Tests
+        run: ./gradlew :plugin:test
+      - name: Publish Plugin
+        run: ./gradlew :plugin:publishPlugins
