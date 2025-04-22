@@ -36,9 +36,6 @@ jobs:
       - name: Run tests
         run: ./gradlew :plugin:test
 
-      - name: Run dry run publish
-        run: ./gradlew :plugin:publishPlugins --dry-run
-
       - name: Upload test reports
         uses: actions/upload-artifact@v4
         if: always()
