@@ -21,8 +21,18 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    sourceSets {
+        getByName("test").assets.srcDir(files("src/test/assets"))
+    }
 }
 
 dependencies {
-    implementation(libs.kotlin.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutine.core)
+    implementation(libs.okhttp.okio)
+
+    testImplementation(libs.kotlinx.coroutine.test)
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
 }
