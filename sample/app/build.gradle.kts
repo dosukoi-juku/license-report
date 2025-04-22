@@ -76,7 +76,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-oss-licenses:17.1.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
     implementation("androidx.navigation:navigation-compose:2.8.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
     implementation("com.github.agrosner.dbflow:dbflow:4.2.3")
 
 }
