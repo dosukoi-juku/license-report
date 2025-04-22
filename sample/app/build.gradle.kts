@@ -71,7 +71,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.okhttp)
-    implementation("com.squareup.okio:okio:3.6.0")
+    implementation("com.squareup.okio:okio:3.11.0")
     implementation("com.google.firebase:firebase-core:21.1.1")
     implementation("com.google.android.gms:play-services-oss-licenses:17.1.0")
     implementation("com.jakewharton.timber:timber:5.0.1")
