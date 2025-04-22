@@ -1,10 +1,21 @@
 [versions]
-kotlin = "1.9.24"
+kotlin = "2.1.10"
 agp = "8.6.0"
-kotlin-serialization = "1.6.0"
+kotlinx-serialization = "1.8.0"
+kotlinx-coroutine = "1.10.1"
+okhttp-okio = "3.10.2"
+junit = "4.13.2"
+robolectric = "4.14.1"
 
 [libraries]
-kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutine" }
+okhttp-okio = { module = "com.squareup.okio:okio", version.ref = "okhttp-okio" }
+
+# Testing
+kotlinx-coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutine" }
+junit = { module = "junit:junit", version.ref = "junit" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
