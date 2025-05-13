@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.license.report)
     id("com.google.android.gms.oss-licenses-plugin")
     id("app.cash.licensee")
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("plugin.serialization") version "2.1.21"
 
 }
 
