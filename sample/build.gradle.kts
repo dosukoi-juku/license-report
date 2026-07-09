@@ -12,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.google.android.gms:oss-licenses-plugin:0.10.6")
+        classpath("com.google.android.gms:oss-licenses-plugin:0.13.0")
         classpath("app.cash.licensee:licensee-gradle-plugin:1.13.0")
     }
 }
